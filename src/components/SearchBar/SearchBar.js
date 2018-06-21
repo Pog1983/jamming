@@ -8,8 +8,6 @@ class SearchBar extends React.Component {
     this.state = {
       input: ''
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   };
 
   handleChange = (e) => {
@@ -18,7 +16,7 @@ class SearchBar extends React.Component {
     });
   };
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     this.props.searchSpotify(this.state.input)
     e.preventDefault();
   };
