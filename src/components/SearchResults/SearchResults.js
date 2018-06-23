@@ -7,10 +7,7 @@ class SearchResults extends React.Component {
     return(
         <div className="SearchResults">
           <h2>Results</h2>
-          {
-            this.props.tracks.map(track => {track.addedToPlaylist = false})
-          }
-          <TrackList tracks={this.props.tracks} addTrack={this.props.addTrack} />
+          <TrackList tracks={this.props.searchResults} onAdd={this.props.onAdd} isRemoval={false} />
       </div>
     );
   }

@@ -1,3 +1,13 @@
+body,
+html,
+#root {
+  height: 100%;
+}
+
+html {
+  font-size: 18px;
+}
+
 h1 {
   padding: .77rem 0;
   background-color: #010c3f;

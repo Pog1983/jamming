@@ -2,21 +2,29 @@ import React from 'react';
 import './Track.css';
 
 class Track extends React.Component {
+  renderAction = () => {
+    return this.props.isRemoval ? '-' : '+';
+  };
 
-  addRemove = (e) => {
+  addTrack = (e) => {
     e.preventDefault();
-    this.props.track.addedToPlaylist ? this.props.removeTrack(this.props.track) : this.props.addTrack(this.props.track)
+    this.props.addTrack(this.props.track);
+  };
+
+  removeTrack = (e) => {
+    e.preventDefault();
+    this.props.onRemove(this.props.track);
   };
 
   render() {
-    const { title, artist, album, addedToPlaylist } = this.props.track;
+    const { name, artist, album } = this.props.track;
     return (
       <div className="Track">
         <div className="Track-information">
-          <h3>{title}</h3>
-          <p>{artist}| {album}</p>
+          <h3>{name}</h3>
+          <p>{artist} | {album}</p>
         </div>
-        <a className="Track-action" onClick={this.addRemove}>{addedToPlaylist ? '-' : '+'}</a>
+        <a className="Track-action" onClick={this.props.isRemoval ? this.removeTrack : this.addTrack}>{this.renderAction()}</a>
       </div>
     );
   }

@@ -1,14 +1,3 @@
-h2 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.55rem;
-}
-
-.App-playlist {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
 .SearchResults {
   width: 50%;
   height: 950px;
