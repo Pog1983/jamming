@@ -16,7 +16,7 @@ const Spotify = {
         window.setTimeout(() => accessToken = '', expiresIn * 1000);
         window.history.pushState('Access Token', null, '/');
       } else {
-        window.location.assign(`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=http://localhost:3000/`)
+        window.location.assign(`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=http://nobodygivesmetheraspberry.surge.sh`)
       };
     };
   },// getAccessToken()
@@ -48,28 +48,42 @@ const Spotify = {
       return;
     };
 
-      const token = accessToken;
+    if (!accessToken) {
+      this.getAccessToken();
+    };
       const header = {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${accessToken}`
       };
       let userId = '';
 
       return fetch(`https://api.spotify.com/v1/me`, {headers: header}).then(response => {
         return response.json();
       }).then(jsonResponse => {
-        if (jsonResponse.id) {
-          userId = jsonResponse.id
-          console.log(userId);
-        };
-      }).then(fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": 'apllication/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({name: playlistName})
-      }));
-  }
+        userId = jsonResponse.id
+
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": 'apllication/json'
+          },
+          method: 'POST',
+          body: JSON.stringify({name: playlistName})
+        }).then(response => {
+          return response.json();
+        }).then(jsonResponse => {
+          let playlistId = jsonResponse.id;
+
+          return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": 'apllication/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({uris: uris})
+          })
+        })
+      });
+}
 };
 
 export default Spotify;

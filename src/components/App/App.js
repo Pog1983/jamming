@@ -22,6 +22,10 @@ class App extends Component {
       return track.uri
     });
     Spotify.postPlaylist(this.state.playlistName, trackUris);
+    this.setState({
+      playlistTracks: [],
+      playlistName: ''
+    });
   };
 
   updateSearchTerm = (term) => {
